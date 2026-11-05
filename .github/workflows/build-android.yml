@@ -23,7 +23,7 @@ jobs:
         run: dotnet workload install maui
 
       - name: Restore Dependencies
-        run: dotnet restore
+        run: dotnet restore SecureFolderFS.Public.slnx
 
       - name: Build and Publish Android App (Release)
         run: |
