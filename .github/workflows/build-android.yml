@@ -27,7 +27,7 @@ jobs:
 
       - name: Build and Publish Android App (Release)
         run: |
-          dotnet publish src/Platforms/SecureFolderFS.Maui/SecureFolderFS.Maui.csproj -f net10.0-android -c Release --no-restore -p:SupportedOSPlatformVersion=21.0
+          dotnet publish src/Platforms/SecureFolderFS.Maui/SecureFolderFS.Maui.csproj -f net10.0-android -c Release --no-restore -p:TargetPlatformVersion=36 -p:SupportedOSPlatformVersion=23.0
 
       - name: Upload APK/AAB Artifacts
         uses: actions/upload-artifact@v4
