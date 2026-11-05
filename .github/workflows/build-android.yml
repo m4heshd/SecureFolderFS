@@ -14,25 +14,21 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+      - name: Install Dependencies
+        uses: "./.github/install_dependencies"
         with:
           dotnet-version: '10.0.102'
-
-      - name: Install .NET MAUI Workload
-        run: dotnet workload install maui
+          run-uno-check: false
 
       - name: Restore Solution
         run: |
-          msbuild SecureFolderFS.Public.slnx -t:Restore -p:Platform="Any CPU" -p:Configuration=Release
+          dotnet restore SecureFolderFS.Public.slnx
 
       - name: Build Android App (Release)
         run: |
-          msbuild src\Platforms\SecureFolderFS.Maui\SecureFolderFS.Maui.csproj `
+          dotnet build src\Platforms\SecureFolderFS.Maui\SecureFolderFS.Maui.csproj `
             -maxcpucount `
-            -t:Build `
-            -p:Platform="Any CPU" `
-            -p:Configuration=Release `
+            -c Release `
             -p:TargetFramework=net10.0-android `
             -p:TargetPlatformVersion=36 `
             -p:SupportedOSPlatformVersion=23.0
