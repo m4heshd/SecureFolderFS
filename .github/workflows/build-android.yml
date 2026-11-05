@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
@@ -28,7 +28,7 @@ jobs:
             -p:Platform="Any CPU" `
             -p:Configuration=Release
 
-      - name: Build Android App (Release)
+      - name: Build Android app
         run: |
           msbuild src\Platforms\SecureFolderFS.Maui\SecureFolderFS.Maui.csproj `
             -maxcpucount `
@@ -37,10 +37,7 @@ jobs:
             -p:Configuration=Release `
             -p:TargetFramework=net10.0-android
 
-      - name: List Build Output (Debug)
-        run: tree /F /A
-
-      - name: Upload APK/AAB Artifacts
+      - name: Upload universal APK as an asset
         uses: actions/upload-artifact@v7
         with:
           name: SecureFolderFS-Android-Package
