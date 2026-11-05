@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Build Android App
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     steps:
       - name: Checkout Repository with Submodules
@@ -17,17 +17,25 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '10.0.102'
 
       - name: Install .NET MAUI Workload
         run: dotnet workload install maui
 
-      - name: Restore Dependencies
-        run: dotnet restore SecureFolderFS.Public.slnx
-
-      - name: Build and Publish Android App (Release)
+      - name: Restore Solution
         run: |
-          dotnet publish src/Platforms/SecureFolderFS.Maui/SecureFolderFS.Maui.csproj -f net10.0-android -c Release --no-restore -p:TargetPlatformVersion=36 -p:SupportedOSPlatformVersion=23.0
+          msbuild SecureFolderFS.Public.slnx -t:Restore -p:Platform="Any CPU" -p:Configuration=Release
+
+      - name: Build Android App (Release)
+        run: |
+          msbuild src\Platforms\SecureFolderFS.Maui\SecureFolderFS.Maui.csproj `
+            -maxcpucount `
+            -t:Build `
+            -p:Platform="Any CPU" `
+            -p:Configuration=Release `
+            -p:TargetFramework=net10.0-android `
+            -p:TargetPlatformVersion=36 `
+            -p:SupportedOSPlatformVersion=23.0
 
       - name: Upload APK/AAB Artifacts
         uses: actions/upload-artifact@v4
