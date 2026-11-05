@@ -45,6 +45,5 @@ jobs:
         with:
           name: SecureFolderFS-Android-Package
           path: |
-            src/Platforms/SecureFolderFS.Maui/bin/Any CPU/Release/net10.0-android/*.aab
-            src/Platforms/SecureFolderFS.Maui/bin/Any CPU/Release/net10.0-android/*.apks
+            src\Platforms\SecureFolderFS.Maui\obj\Any CPU\Release\net10.0-android\android\bin\org.securefolderfs.securefolderfs-Universal.apks
           if-no-files-found: error
