@@ -9,8 +9,8 @@ jobs:
     runs-on: windows-2025-vs2026
 
     steps:
-      - name: Checkout Repository with Submodules
-        uses: actions/checkout@v4
+      - name: Checkout the repository
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -22,16 +22,20 @@ jobs:
 
       - name: Restore Solution
         run: |
-          dotnet restore SecureFolderFS.Public.slnx
+          msbuild SecureFolderFS.Public.slnx `
+            -maxcpucount `
+            -t:Restore `
+            -p:Platform="Any CPU" `
+            -p:Configuration=Release
 
       - name: Build Android App (Release)
         run: |
-          dotnet build src\Platforms\SecureFolderFS.Maui\SecureFolderFS.Maui.csproj `
+          msbuild src\Platforms\SecureFolderFS.Maui\SecureFolderFS.Maui.csproj `
             -maxcpucount `
-            -c Release `
-            -p:TargetFramework=net10.0-android `
-            -p:TargetPlatformVersion=36 `
-            -p:SupportedOSPlatformVersion=23.0
+            -t:Build `
+            -p:Platform="Any CPU" `
+            -p:Configuration=Release `
+            -p:TargetFramework=net10.0-android
 
       - name: Upload APK/AAB Artifacts
         uses: actions/upload-artifact@v4
