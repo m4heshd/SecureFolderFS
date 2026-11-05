@@ -37,11 +37,14 @@ jobs:
             -p:Configuration=Release `
             -p:TargetFramework=net10.0-android
 
+      - name: List Build Output (Debug)
+        run: Get-ChildItem -Path "src/Platforms/SecureFolderFS.Maui/bin/Release" -Recurse
+
       - name: Upload APK/AAB Artifacts
         uses: actions/upload-artifact@v7
         with:
           name: SecureFolderFS-Android-Package
           path: |
-            src/Platforms/SecureFolderFS.Maui/bin/Release/net10.0-android*/**/*.apk
-            src/Platforms/SecureFolderFS.Maui/bin/Release/net10.0-android*/**/*.aab
+            src/Platforms/SecureFolderFS.Maui/bin/Release/**/*.apk
+            src/Platforms/SecureFolderFS.Maui/bin/Release/**/*.aab
           if-no-files-found: error
